@@ -21,7 +21,14 @@ def pregunta_01():
     214
 
     """
-    return
+    with open('data.csv', 'r') as f:
+        suma_segunda_colm = 0
+        for row in f:
+            row = row.split("\t")
+            suma_segunda_colm = suma_segunda_colm + float(row[1]) 
+            
+            
+    return suma_segunda_colm
 
 
 def pregunta_02():
@@ -39,7 +46,37 @@ def pregunta_02():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as archivo_csv:
+    # Lee todas las líneas del archivo
+        lineas = archivo_csv.readlines()
+        lineas.count
+
+    for linea in lineas:
+        valores = linea.strip()
+
+        #print(valores)
+
+
+    dic = []
+    suma_a = 0  
+    suma_b = 0  
+    suma_c = 0  
+    suma_d = 0 
+    suma_e = 0
+    for fila in lineas:
+        if fila[0] == "A":
+            suma_a = suma_a + 1
+        if fila[0] == "B":
+            suma_b = suma_b + 1
+        if fila[0] == "C":
+            suma_c = suma_c + 1
+        if fila[0] == "D":
+            suma_d = suma_d + 1
+        if fila[0] == "E":
+            suma_e = suma_e + 1
+    dic = [("A", suma_a), ("B", suma_b),("C", suma_c),("D", suma_d),("E", suma_e)] 
+
+    return dic
 
 
 def pregunta_03():
@@ -57,7 +94,28 @@ def pregunta_03():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as f:
+        
+        
+    
+        f = [x.replace("\n", "") for x in f ]
+        f = [y.split("\t") for y in f ]
+
+        ext_letras = [t[0][0] for t in f]
+        numeros = [int(t[1]) for t in f]
+
+
+        sum_ext_letras = {}
+
+        for letra, valor in zip(ext_letras, numeros):
+            if letra in sum_ext_letras:
+                sum_ext_letras[letra] += valor
+            else:
+                sum_ext_letras[letra] = valor
+
+        resultado = sorted([(letra, suma) for letra, suma in sum_ext_letras.items()])
+        
+    return resultado
 
 
 def pregunta_04():
@@ -82,7 +140,19 @@ def pregunta_04():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as f:
+        
+        f = [x.replace("\n", "") for x in f ]
+        f = [y.split("\t") for y in f ]
+    
+    
+
+        fecha_mes = [t[2].split("-")[1] for t in f]
+        fecha_mes
+
+        result = [(mes, fecha_mes.count(mes)) for mes in sorted(set(fecha_mes))]
+
+    return result
 
 
 def pregunta_05():
@@ -100,7 +170,32 @@ def pregunta_05():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as f:
+
+
+        f = [x.replace("\n", "") for x in f ]
+        f = [y.split("\t") for y in f ]
+
+        letras = [t[0][0] for t in f]
+        numeros = [int(t[1][0]) for t in f]
+        lista = list(zip(letras, numeros))
+
+        maximos_minimos = {}
+
+        for letra, valor in lista:
+            if letra not in maximos_minimos:
+                maximos_minimos[letra] = {"maximo": valor, "minimo": valor}
+            else:
+                if valor > maximos_minimos[letra]["maximo"]:
+                    maximos_minimos[letra]["maximo"] = valor
+                if valor < maximos_minimos[letra]["minimo"]:
+                    maximos_minimos[letra]["minimo"] = valor
+
+        resultado = [(letra, maximos_minimos[letra]["maximo"], maximos_minimos[letra]["minimo"]) for letra in maximos_minimos]
+        resultado = sorted(resultado, key=lambda resultado: resultado[0])
+
+        
+        return resultado
 
 
 def pregunta_06():
@@ -125,7 +220,31 @@ def pregunta_06():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as f:
+
+
+        f = [x.replace("\n", "") for x in f ]
+        f = [y.split("\t") for y in f ]
+        
+        min_max_dict = {}
+
+        for fila in f:
+            col5_dict = fila[4]
+            for llave_numero in col5_dict.split(","):
+                llave, numero = llave_numero.split(":")
+                numero = int(numero)
+                if llave in min_max_dict:
+
+                    min_max_dict[llave].append(numero)
+                else:
+                    min_max_dict[llave] = [numero]
+            min_max_dict
+            resultado = []
+            for llave, numeros in sorted((min_max_dict.items())):
+                resultado.append((llave, min(numeros), max(numeros)))
+
+        
+    return resultado
 
 
 def pregunta_07():
@@ -149,7 +268,25 @@ def pregunta_07():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as f:
+        f = [row_1.replace("\n", "") for row_1 in f ]
+        f = [row_1.split("\t") for row_1 in f ]
+
+
+
+
+        resultado = []
+        lista_letra_numero = [(int(t[1]), t[0]) for t in f]
+
+        for extrac_numero in sorted(set(t[0] for t in lista_letra_numero)):
+
+            letras = [t[1] for t in lista_letra_numero if t[0] == extrac_numero]
+            resultado.append((extrac_numero, letras))
+
+
+        resultado = sorted(resultado, key=lambda x: x[0])
+ 
+    return resultado
 
 
 def pregunta_08():
@@ -174,7 +311,25 @@ def pregunta_08():
     ]
 
     """
-    return
+    with open('data.csv', 'r') as f:
+        f = [row_1.replace("\n", "") for row_1 in f ]
+        f = [row_1.split("\t") for row_1 in f ]
+
+
+
+
+        resultado = []
+        lista_letra_numero = [(int(t[1]), t[0]) for t in f]
+
+        for extrac_numero in sorted(set(t[0] for t in lista_letra_numero)):
+
+            letras = sorted(set([t[1] for t in lista_letra_numero if t[0] == extrac_numero]))
+            resultado.append((extrac_numero, letras))
+
+
+        resultado = sorted(resultado, key=lambda x: x[0])
+
+    return resultado
 
 
 def pregunta_09():
@@ -197,7 +352,27 @@ def pregunta_09():
     }
 
     """
-    return
+    with open('data.csv', 'r') as f:
+        dicc_letras_valores = {}
+        f = [x.replace("\n", "") for x in f ]
+        f = [y.split("\t") for y in f ]
+
+        for row in f:
+            columna5_dic = row[4]
+            for key_valor in columna5_dic.split(","):
+                key, valor = key_valor.split(":")
+                valor = int(valor)
+                if key in dicc_letras_valores:
+                    dicc_letras_valores[key].append(valor)
+                else:
+                    dicc_letras_valores[key] = [valor]
+                    
+
+
+
+        resultado = { key:len(valores) for key, valores in sorted(dicc_letras_valores.items()) }
+    
+    return resultado
 
 
 def pregunta_10():
@@ -218,7 +393,17 @@ def pregunta_10():
 
 
     """
-    return
+    with open('data.csv', 'r') as f:
+        f = [x.replace("\n", "") for x in f ]
+        f = [y.split("\t") for y in f ]
+
+        columna0 = [t[0] for t in f]
+        calomna4 =[len(t[3].split(',')) for t in f]
+        columna5 =[len((t[4]).split(',')) for t in f]
+        
+        resultado = list(zip(columna0,calomna4, columna5))
+        
+    return resultado
 
 
 def pregunta_11():
@@ -239,7 +424,33 @@ def pregunta_11():
 
 
     """
-    return
+    with open('data.csv', 'r') as f:
+        
+        f = [x.replace("\n", "") for x in f ]
+        f = [y.split("\t") for y in f ]
+
+        columna2 = [int(t[1]) for t in f]
+        columna4 = [t[3] for t in f]
+
+        resultado_dicc = {}
+
+        for i in range(len(columna2)):
+            keys = columna4[i].split(",")
+            for key in keys:
+                if key in resultado_dicc:
+                    resultado_dicc[key] += columna2[i]
+                else:
+                    resultado_dicc[key] = columna2[i]
+
+        sorted_dict = dict(sorted(resultado_dicc.items()))
+
+        format_dicc = {}
+        for key, value in sorted_dict.items():
+            format_dicc[key] = value
+            
+            
+        return format_dicc
+   
 
 
 def pregunta_12():
@@ -257,4 +468,22 @@ def pregunta_12():
     }
 
     """
-    return
+    with open('data.csv', 'r') as f:
+
+        resultado = {}
+
+        for line in f:
+            elementos = line.strip().split('\t')
+            column1, column5 = elementos[0], elementos[4]
+            total = 0
+            for pair in column5.split(','):
+                total += int(pair.split(':')[1])
+            if column1 in resultado:
+                resultado[column1] += total
+            else:
+                resultado[column1] = total
+
+        resultado = dict(sorted(resultado.items()))
+
+
+        return resultado
